@@ -29,4 +29,5 @@ app.delete("/data/:id", (req, res) => {
   res.json({ message: "Data dihapus" });
 });
 
-app.listen(3000, () => console.log("Server backend jalan di port 3000"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Server berjalan di port ${PORT}`));
