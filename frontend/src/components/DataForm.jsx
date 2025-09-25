@@ -21,11 +21,14 @@ export default function DataForm({ setData }) {
         return;
       }
 
-      const res = await fetch("http://localhost:3000/data", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const res = await fetch(
+        "https://data-visualization-app-production.up.railway.app/data",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (!res.ok) throw new Error("Gagal tambah data");
       const newData = await res.json();

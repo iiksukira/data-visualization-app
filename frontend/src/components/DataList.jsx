@@ -2,17 +2,20 @@ import React from "react";
 import toast from "react-hot-toast";
 
 function DataList({ data, setData }) {
-  const handleDelete = async (index) => {
+  const handleDelete = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/data/${index}`, {
-        method: "DELETE",
-      });
+      const res = await fetch(
+        `https://data-visualization-app-production.up.railway.app/data/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       if (!res.ok) throw new Error("Gagal hapus data");
 
-      const updated = await fetch("http://localhost:3000/data").then((r) =>
-        r.json()
-      );
+      const updated = await fetch(
+        "https://data-visualization-app-production.up.railway.app/data"
+      ).then((r) => r.json());
       setData(updated);
 
       toast.success("Data berhasil dihapus 🗑️");
@@ -24,16 +27,16 @@ function DataList({ data, setData }) {
 
   return (
     <ul className="space-y-3">
-      {data.map((item, i) => (
+      {data.map((item) => (
         <li
-          key={i}
+          key={item.id}
           className="flex justify-between items-center bg-gray-800 p-4 rounded shadow hover:bg-gray-700 transition"
         >
           <span className="font-medium">
             {item.name}: {item.value}
           </span>
           <button
-            onClick={() => handleDelete(i)}
+            onClick={() => handleDelete(item.id)}
             className="text-red-400 hover:text-red-600 font-semibold"
           >
             Hapus

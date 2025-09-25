@@ -11,7 +11,9 @@ function App() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const res = await fetch("http://localhost:3000/data");
+        const res = await fetch(
+          "https://data-visualization-app-production.up.railway.app/data"
+        );
         if (!res.ok) throw new Error("Gagal fetch data");
         const result = await res.json();
         setData(result);
