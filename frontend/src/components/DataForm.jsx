@@ -13,33 +13,29 @@ export default function DataForm({ setData }) {
       };
 
       if (!payload.name) {
-        toast.error("Nama produk tidak boleh kosong!");
+        toast.error("❌ Nama produk tidak boleh kosong!");
         return;
       }
       if (isNaN(payload.value)) {
-        toast.error("Jumlah harus berupa angka!");
+        toast.error("❌ Jumlah harus berupa angka!");
         return;
       }
 
-      const res = await fetch(
-        "https://data-visualization-app-production.up.railway.app/data",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload),
-        }
-      );
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/data`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
 
       if (!res.ok) throw new Error("Gagal tambah data");
       const newData = await res.json();
 
       setData((prev) => [...prev, newData]);
-      toast.success("Data berhasil ditambahkan");
-      toast.success("Segera refresh halaman untuk melihat perubahan");
+      toast.success("✅ Data berhasil ditambahkan 🎉");
       setForm({ name: "", value: "" });
     } catch (err) {
       console.error(err);
-      toast.error("Gagal menambahkan data ❌");
+      toast.error("❌ Gagal menambahkan data");
     }
   };
 

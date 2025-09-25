@@ -4,24 +4,21 @@ import toast from "react-hot-toast";
 function DataList({ data, setData }) {
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(
-        `https://data-visualization-app-production.up.railway.app/data/${id}`,
-        {
-          method: "DELETE",
-        }
-      );
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/data/${id}`, {
+        method: "DELETE",
+      });
 
       if (!res.ok) throw new Error("Gagal hapus data");
 
-      const updated = await fetch(
-        "https://data-visualization-app-production.up.railway.app/data"
-      ).then((r) => r.json());
-      setData(updated);
+      const updated = await fetch(`${import.meta.env.VITE_API_URL}/data`).then(
+        (r) => r.json()
+      );
 
-      toast.success("Data berhasil dihapus 🗑️");
+      setData(updated);
+      toast.success("✅ Data berhasil dihapus 🗑️");
     } catch (err) {
       console.error(err);
-      toast.error("Gagal menghapus data ❌");
+      toast.error("❌ Gagal menghapus data");
     }
   };
 
