@@ -1,13 +1,13 @@
-# Visualisasi Data Penjualan 📊
+# Sales Data Visualization 📊
 
 ## 📌 Project Title
 
-Visualisasi Data Penjualan dengan React, Chart.js, dan Express.js
+Sales Data Visualization with React, Chart.js, and Express.js
 
 ## 📝 Description
 
-Project ini adalah aplikasi web sederhana untuk mengelola dan memvisualisasikan data penjualan.  
-User dapat menambahkan, menghapus, dan melihat data dalam bentuk chart dan statistik ringkas.
+This project is a simple web application for managing and visualizing sales data.
+Users can add, delete, and view data in the form of charts and concise statistics.
 
 ## ⚙️ Technologies Used
 
@@ -19,32 +19,32 @@ User dapat menambahkan, menghapus, dan melihat data dalam bentuk chart dan stati
 
 ## 🚀 Features
 
-- Tambah data penjualan
-- Hapus data penjualan
-- Statistik otomatis (total, rata-rata, tertinggi, terendah)
-- Visualisasi data dengan chart interaktif
-- Notifikasi sukses/error dengan toast
-- Responsif & mobile-friendly
+- Add sales data
+- Delete sales data
+- Automatic statistics (total, average, highest, lowest)
+- Data visualization with interactive charts
+- Success/error notifications with toasts
+- Responsive & mobile-friendly
 
 ## 🛠️ Setup Instructions
 
 1. Clone repository
 
-   ```bash
-   git clone https://github.com/iiksukira/data-visualization-app.git
-   cd data-visualization-app
-   ```
+```bash
+git clone https://github.com/iiksukira/data-visualization-app.git
+cd data-visualization-app
+```
 
-2. Install dependencies frontend
+2. Install frontend dependencies
 
-   cd frontend
-   npm install
-   npm run dev
+cd frontend
+npm install
+npm run dev
 
-3. Install dependencies backend
+3. Install backend dependencies 
 
-   cd backend
-   npm install
-   node index.js
+backend cd 
+npm install 
+node index.js
 
-4. Akses frontend di http://localhost:5173 dan backend di http://localhost:3000
+4. Access the frontend at http://localhost:5173 and the backend at http://localhost:3000
