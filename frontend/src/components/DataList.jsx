@@ -10,7 +10,6 @@ function DataList({ data, setData }) {
 
       if (!res.ok) throw new Error("Gagal hapus data");
 
-      // Ambil data terbaru
       const updated = await fetch("http://localhost:3000/data").then((r) =>
         r.json()
       );

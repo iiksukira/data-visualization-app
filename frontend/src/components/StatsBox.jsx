@@ -3,7 +3,6 @@ import React from "react";
 export default function StatsBox({ data }) {
   if (!data || data.length === 0) return null;
 
-  // Pastikan semua value angka valid
   const numericData = data.map((item) => Number(item.value) || 0);
 
   const total = numericData.reduce((sum, val) => sum + val, 0);
@@ -12,7 +11,6 @@ export default function StatsBox({ data }) {
   const max = numericData.length > 0 ? Math.max(...numericData) : 0;
   const min = numericData.length > 0 ? Math.min(...numericData) : 0;
 
-  // Array stats dengan fallback aman
   const stats = [
     { label: "Total", value: isNaN(total) ? "0" : total },
     { label: "Rata-rata", value: isNaN(avg) ? "0" : avg },

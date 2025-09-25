@@ -8,10 +8,8 @@ app.use(bodyParser.json());
 
 let data = [];
 
-// Ambil semua data
 app.get("/data", (req, res) => res.json(data));
 
-// Tambah data
 app.post("/data", (req, res) => {
   const { name, value } = req.body;
 
@@ -22,10 +20,9 @@ app.post("/data", (req, res) => {
   const newItem = { id: Date.now(), name, value };
   data.push(newItem);
 
-  res.json(newItem); // ✅ kembalikan objek baru
+  res.json(newItem);
 });
 
-// Hapus data by id
 app.delete("/data/:id", (req, res) => {
   const id = Number(req.params.id);
   data = data.filter((item) => item.id !== id);
