@@ -37,7 +37,6 @@ export default function Insights() {
     }
   };
 
-  // 📊 Transformasi data
   const salesByDate = data.reduce((acc, d) => {
     const date = d.tanggal?.split("T")[0] || "Unknown";
     acc[date] = (acc[date] || 0) + Number(d.total);
@@ -69,15 +68,25 @@ export default function Insights() {
     transaksi: count,
   }));
 
+  const formatRupiah = (num) =>
+    new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(num);
+
   const COLORS = ["#00C49F", "#FFBB28", "#FF8042", "#0088FE", "#FF4444"];
 
-  // 🧠 Auto Insight
   let autoInsight = "Tidak ada cukup data untuk insight.";
   if (data.length > 0) {
     const topProduct = pieData.sort((a, b) => b.value - a.value)[0];
     const topCustomer = barData.sort((a, b) => b.transaksi - a.transaksi)[0];
-    autoInsight = `Produk terlaris adalah "${topProduct?.name}" dengan total penjualan Rp ${topProduct?.value}. 
-    Customer paling aktif adalah "${topCustomer?.name}" dengan ${topCustomer?.transaksi} transaksi.`;
+    autoInsight = `Produk terlaris adalah "${formatRupiah(
+      topProduct?.name
+    )}" dengan total penjualan ${formatRupiah(topProduct?.value)}. 
+    Customer paling aktif adalah "${topCustomer?.name}" dengan ${
+      topCustomer?.transaksi
+    } transaksi.`;
   }
 
   return (
