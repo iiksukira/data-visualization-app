@@ -11,13 +11,21 @@ let data = [];
 app.get("/data", (req, res) => res.json(data));
 
 app.post("/data", (req, res) => {
-  const { name, value } = req.body;
+  const { produk, customer, total } = req.body;
 
-  if (!name || value === undefined) {
-    return res.status(400).json({ error: "Name dan Value wajib diisi" });
+  if (!produk || !customer || total === undefined) {
+    return res
+      .status(400)
+      .json({ error: "Produk, Customer, dan Total wajib diisi" });
   }
 
-  const newItem = { id: Date.now(), name, value };
+  const newItem = {
+    id: Date.now(),
+    produk,
+    customer,
+    total,
+    tanggal: new Date().toISOString().split("T")[0],
+  };
   data.push(newItem);
 
   res.json(newItem);
