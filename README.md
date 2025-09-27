@@ -67,7 +67,7 @@ node index.js
 
 4. Environment Variables
 
-VITE_API_URL=https://your-backend-url.up.railway.app/data
+VITE_API_URL=https://data-visualization-app-production.up.railway.app/data
 
 5. Run locally
 
