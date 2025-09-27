@@ -104,6 +104,13 @@ export default function Data() {
     saveAs(blob, "data_penjualan.csv");
   };
 
+  const formatRupiah = (num) =>
+    new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(num);
+
   return (
     <div className="space-y-6">
       <h1 className="text-3xl font-bold text-blue-500">📊 Data Penjualan</h1>
@@ -128,7 +135,7 @@ export default function Data() {
       <div className="overflow-x-auto">
         <table className="min-w-full bg-gray-800 text-white rounded-lg overflow-hidden">
           <thead>
-            <tr className="bg-gray-700">
+            <tr className="bg-gray-700 border-b border-gray-600">
               <th className="px-4 py-2">Produk</th>
               <th className="px-4 py-2">Customer</th>
               <th className="px-4 py-2">Total</th>
@@ -141,9 +148,11 @@ export default function Data() {
               <tr key={d.id} className="border-b border-gray-700">
                 <td className="px-4 py-2">{d.produk}</td>
                 <td className="px-4 py-2">{d.customer}</td>
-                <td className="px-4 py-2">Rp {d.total}</td>
-                <td className="px-4 py-2">{d.tanggal}</td>
-                <td className="px-4 py-2 space-x-2">
+                <td className="px-4 py-2 text-center">
+                  {formatRupiah(d.total)}
+                </td>
+                <td className="px-4 py-2 text-center">{d.tanggal}</td>
+                <td className="px-4 py-2 space-x-2 text-center">
                   <button
                     onClick={() => {
                       setEditItem(d);

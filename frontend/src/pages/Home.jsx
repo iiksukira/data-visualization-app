@@ -20,7 +20,6 @@ export default function Home() {
         setData(result);
         toast.success("Data berhasil dimuat");
 
-        // Hitung ringkasan
         const today = new Date().toISOString().slice(0, 10);
         const yesterday = new Date(Date.now() - 86400000)
           .toISOString()
@@ -32,9 +31,14 @@ export default function Home() {
           monthRev = 0;
 
         result.forEach((item) => {
-          if (item.tanggal?.startsWith(today)) todayRev += item.total;
-          if (item.tanggal?.startsWith(yesterday)) yesterdayRev += item.total;
-          if (item.tanggal?.startsWith(thisMonth)) monthRev += item.total;
+          const tanggal = item.tanggal;
+          if (!tanggal || typeof tanggal !== "string") return;
+
+          if (tanggal.startsWith(today)) todayRev += item.total;
+          if (tanggal.startsWith(yesterday)) yesterdayRev += item.total;
+
+          const itemMonth = tanggal.slice(0, 7); // ambil "YYYY-MM"
+          if (itemMonth === thisMonth) monthRev += item.total;
         });
 
         setTodayRevenue(todayRev);
@@ -48,17 +52,31 @@ export default function Home() {
 
     loadData();
   }, []);
+  const formatRupiah = (num) =>
+    new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      minimumFractionDigits: 0,
+    }).format(num);
 
-  // Hitung stats
   const totalProduk = new Set(data.map((d) => d.produk)).size;
   const totalCustomer = new Set(data.map((d) => d.customer)).size;
   const totalTransaksi = data.length;
 
-  // Notifikasi tren
-  const growth =
-    yesterdayRevenue > 0
-      ? ((todayRevenue - yesterdayRevenue) / yesterdayRevenue) * 100
-      : 0;
+  let growthText = "";
+  if (yesterdayRevenue === 0 && todayRevenue > 0) {
+    growthText = "🚀 Penjualan naik dari nol dibanding kemarin";
+  } else if (yesterdayRevenue === 0 && todayRevenue === 0) {
+    growthText = "⚠️ Tidak ada penjualan hari ini maupun kemarin";
+  } else {
+    const growth = ((todayRevenue - yesterdayRevenue) / yesterdayRevenue) * 100;
+    growthText =
+      growth >= 0
+        ? `🚀 Penjualan naik ${growth.toFixed(1)}% dibanding kemarin`
+        : `⚠️ Penjualan turun ${Math.abs(growth).toFixed(
+            1
+          )}% dibanding kemarin`;
+  }
 
   return (
     <div className="space-y-8">
@@ -66,22 +84,16 @@ export default function Home() {
         📊 Dashboard Overview
       </h1>
 
-      {/* Alert */}
       <div
         className={`p-4 rounded-md ${
-          growth >= 0
+          todayRevenue >= yesterdayRevenue
             ? "bg-green-900 text-green-300"
             : "bg-red-900 text-red-300"
         }`}
       >
-        {growth >= 0
-          ? `🚀 Penjualan naik ${growth.toFixed(1)}% dibanding kemarin`
-          : `⚠️ Penjualan turun ${Math.abs(growth).toFixed(
-              1
-            )}% dibanding kemarin`}
+        {growthText}
       </div>
 
-      {/* Quick Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         <div className="bg-gray-800 p-4 rounded-lg text-center">
           <p className="text-gray-400">Produk</p>
@@ -97,18 +109,16 @@ export default function Home() {
         </div>
         <div className="bg-gray-800 p-4 rounded-lg text-center">
           <p className="text-gray-400">Revenue Bulan Ini</p>
-          <p className="text-2xl font-bold">Rp {monthRevenue}</p>
+          <p className="text-2xl font-bold">{formatRupiah(monthRevenue)}</p>
         </div>
       </div>
 
-      {/* Ringkasan Hari Ini */}
       <div className="bg-gray-800 p-6 rounded-lg">
         <h2 className="text-xl font-semibold mb-2">Ringkasan Hari Ini</h2>
-        <p>Revenue Hari Ini: Rp {todayRevenue}</p>
-        <p>Revenue Bulan Ini: Rp {monthRevenue}</p>
+        <p>Revenue Hari Ini: {formatRupiah(todayRevenue)}</p>
+        <p>Revenue Bulan Ini: {formatRupiah(monthRevenue)}</p>
       </div>
 
-      {/* Sparkline */}
       <div className="bg-gray-800 p-6 rounded-lg">
         <h2 className="text-xl font-semibold mb-2">
           Tren Penjualan 7 Hari Terakhir
@@ -118,7 +128,6 @@ export default function Home() {
         </Sparklines>
       </div>
 
-      {/* Navigasi Cepat */}
       <div className="flex gap-4">
         <Link
           to="/data"
